@@ -1,7 +1,7 @@
 {
   "name": "gampee",
-  "version": "1.0.0",
-  "description": "Handle Google Analytics Measurement Protocol Enhanced Ecommerce params",
+  "version": "0.0.0",
+  "description": "Helps out with Google Analytics Measurement Protocol Enhanced Ecommerce params",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
