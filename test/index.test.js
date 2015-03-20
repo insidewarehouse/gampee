@@ -116,7 +116,7 @@ describe("gampee", function () {
 		it("should accept empty list name", function () {
 			var ecommerceParams = gampee({
 				"type": "impression",
-				"products": [ {"id": "shirtM", "name": "Nice T-Shirt (M)"} ]
+				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)"}]
 			});
 
 			expect(ecommerceParams).to.eql({
@@ -125,6 +125,108 @@ describe("gampee", function () {
 				"il0pi0nm": "Nice T-Shirt (M)"
 
 			});
+		});
+
+	});
+
+	describe("type=purchase", function () {
+
+		it("should convert purchase", function () {
+
+			var ecommerceParams = gampee({
+				"type": "purchase",
+				"id": "T1234",
+				"products": [
+					{"id": "shirtM", "name": "Nice T-Shirt (M)"},
+					{"id": "shirtXL", "name": "Nice T-Shirt (XL)"}
+				]
+			});
+
+			expect(ecommerceParams).to.eql({
+
+				"pa": "purchase",
+				"ti": "T1234",
+
+				"pr0id": "shirtM",
+				"pr0nm": "Nice T-Shirt (M)",
+
+				"pr1id": "shirtXL",
+				"pr1nm": "Nice T-Shirt (XL)"
+
+			});
+
+		});
+
+		it("should accept product brand/category/variant/price/quantity/coupon/position", function () {
+
+			var ecommerceParams = gampee({
+				"type": "purchase",
+				"id": "T1234",
+				"products": [
+					{
+						"id": "shirtM",
+						"name": "Nice T-Shirt (M)",
+						"brand": "TeeShart co.",
+						"category": "Men",
+						"variant": "Black",
+						"price": 12.95,
+						"quantity": 3,
+						"coupon": "SHIRT-SALE",
+						"position": 2
+					}
+				]
+			});
+
+			expect(ecommerceParams).to.eql({
+
+				"pa": "purchase",
+				"ti": "T1234",
+
+				"pr0id": "shirtM",
+				"pr0nm": "Nice T-Shirt (M)",
+				"pr0br": "TeeShart co.",
+				"pr0ca": "Men",
+				"pr0va": "Black",
+				"pr0pr": "12.95",
+				"pr0qt": "3",
+				"pr0cc": "SHIRT-SALE",
+				"pr0ps": "2"
+
+			});
+
+		});
+
+		it("should accept purchase affiliation/revenue/tax/shipping/coupon", function () {
+
+			var ecommerceParams = gampee({
+				"type": "purchase",
+				"id": "T1234",
+				"affiliation": "cj",
+				"revenue": 12.95,
+				"tax": 0.95,
+				"shipping": 1.5,
+				"coupon": "15OFF",
+				"products": [
+					{"id": "shirtM", "name": "Nice T-Shirt (M)"}
+				]
+			});
+
+			expect(ecommerceParams).to.eql({
+
+				"pa": "purchase",
+				"ti": "T1234",
+
+				"ta": "cj",
+				"tr": "12.95",
+				"tt": "0.95",
+				"ts": "1.5",
+				"tcc": "15OFF",
+
+				"pr0id": "shirtM",
+				"pr0nm": "Nice T-Shirt (M)"
+
+			});
+
 		});
 
 	});
