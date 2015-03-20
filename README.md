@@ -1,5 +1,7 @@
 # gampee
 
+[![Build Status](https://travis-ci.org/insidewarehouse/gampee.svg?branch=master)](https://travis-ci.org/insidewarehouse/gampee)
+
 Converts and validates humanly understandable Enhanced E-commerce params into Measurement Protocol.
 Friends with [universal-analytics](https://www.npmjs.com/package/universal-analytics).
 
