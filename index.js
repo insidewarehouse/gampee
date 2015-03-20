@@ -20,14 +20,14 @@ function gampee(ecData) {
 
 		if (dataItem.type !== "impression") {
 			ecParams["pa"] = dataItem.type;
-			if (dataItem.id) ecParams["ti"] = dataItem.id;
-			if (dataItem.list) ecParams["pal"] = "" + dataItem.list;
-			if (dataItem.affiliation) ecParams["ta"] = "" + dataItem.affiliation;
-			if (dataItem.revenue) ecParams["tr"] = "" + dataItem.revenue;
-			if (dataItem.tax) ecParams["tt"] = "" + dataItem.tax;
-			if (dataItem.shipping) ecParams["ts"] = "" + dataItem.shipping;
-			if (dataItem.coupon) ecParams["tcc"] = "" + dataItem.coupon;
-			if (dataItem.step) ecParams["cos"] = "" + dataItem.step;
+			if (dataItem.id) ecParams[dataKeyPrefix + "ti"] = dataItem.id;
+			if (dataItem.list) ecParams[dataKeyPrefix + "pal"] = "" + dataItem.list;
+			if (dataItem.affiliation) ecParams[dataKeyPrefix + "ta"] = "" + dataItem.affiliation;
+			if (dataItem.revenue) ecParams[dataKeyPrefix + "tr"] = "" + dataItem.revenue;
+			if (dataItem.tax) ecParams[dataKeyPrefix + "tt"] = "" + dataItem.tax;
+			if (dataItem.shipping) ecParams[dataKeyPrefix + "ts"] = "" + dataItem.shipping;
+			if (dataItem.coupon) ecParams[dataKeyPrefix + "tcc"] = "" + dataItem.coupon;
+			if (dataItem.step) ecParams[dataKeyPrefix + "cos"] = "" + dataItem.step;
 		}
 
 		if (dataItem.currency) {
