@@ -1,6 +1,6 @@
 function gampee()
 {
-	throw new Error("No implemented");
+	throw new Error("Not implemented");
 }
 
 module.exports = gampee;

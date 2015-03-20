@@ -1,0 +1,12 @@
+{
+  "esnext": false,
+  "browser": false,
+  "node": true,
+  "sub": true,
+  "freeze": true,
+  "immed": true,
+  "nonbsp": true,
+  "noempty": true,
+  "unused": true,
+  "multistr": true
+}
