@@ -5,6 +5,13 @@
 Converts and validates humanly understandable Enhanced E-commerce params into Measurement Protocol.
 Friends with [universal-analytics](https://www.npmjs.com/package/universal-analytics).
 
+## Note: unsupported options
+
+Due to lack of know-how/MVP-ness, these are not supported (feel free to PR):
+
+* Product action: `checkout_option` and action detail `option`
+* Custom product dimensions/metrics
+
 ## Usage
 
 ```js

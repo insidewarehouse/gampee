@@ -231,4 +231,83 @@ describe("gampee", function () {
 
 	});
 
+	describe("type=click", function () {
+
+		it("should accept click list", function () {
+
+			var ecommerceParams = gampee({
+				"type": "click",
+				"list": "search",
+				"products": [
+					{"id": "shirtM", "name": "Nice T-Shirt (M)", "position": 3}
+				]
+			});
+
+			expect(ecommerceParams).to.eql({
+
+				"pa": "click",
+				"pal": "search",
+
+				"pr0id": "shirtM",
+				"pr0nm": "Nice T-Shirt (M)",
+				"pr0ps": "3"
+
+			});
+
+		});
+
+	});
+
+	describe("type=detail", function () {
+
+		it("should accept detail list", function () {
+
+			var ecommerceParams = gampee({
+				"type": "detail",
+				"list": "search",
+				"products": [
+					{"id": "shirtM", "name": "Nice T-Shirt (M)", "position": 3}
+				]
+			});
+
+			expect(ecommerceParams).to.eql({
+
+				"pa": "detail",
+				"pal": "search",
+
+				"pr0id": "shirtM",
+				"pr0nm": "Nice T-Shirt (M)",
+				"pr0ps": "3"
+
+			});
+
+		});
+
+	});
+
+	describe("type=checkout", function () {
+
+		it("should accept checkout step", function () {
+
+			var ecommerceParams = gampee({
+				"type": "checkout",
+				"step": 2,
+				"products": [
+					{"id": "shirtM", "name": "Nice T-Shirt (M)"}
+				]
+			});
+
+			expect(ecommerceParams).to.eql({
+
+				"pa": "checkout",
+				"cos": "2",
+
+				"pr0id": "shirtM",
+				"pr0nm": "Nice T-Shirt (M)"
+
+			});
+
+		});
+	});
+
 });
