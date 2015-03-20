@@ -17,7 +17,8 @@ var ecommerceParams = gampee([{
 	"products": [
 		{ "id": "shirtM", "name": "Nice T-Shirt (M)", "position": 1 },
 		{ "id": "shirtXL", "name": "Nice T-Shirt (XL)", "position": 2 }
-	]
+	],
+	"currency": "EUR"
 }]);
 
 assert.equal(ecommerceParams, {
@@ -30,7 +31,9 @@ assert.equal(ecommerceParams, {
 
 	"il0pi1id": "shirtXL",
 	"il0pi1nm": "Nice T-Shirt (XL)",
-	"il0pi1ps": 2
+	"il0pi1ps": 2,
+	
+	"cu": "EUR"
 	
 });
 ```
