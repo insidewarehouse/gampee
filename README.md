@@ -8,9 +8,10 @@ Friends with [universal-analytics](https://www.npmjs.com/package/universal-analy
 ## Example
 
 ```js
-var gampee = require("gampee");
+var gampee = require("gampee"),
+	ga = require("universal-analytics");
 
-var ecommerceParams = gampee([{
+var ecommerceParams = gampee({
 	"type": "impression",
 	"list": "search",
 	"products": [
@@ -18,7 +19,7 @@ var ecommerceParams = gampee([{
 		{ "id": "shirtXL", "name": "Nice T-Shirt (XL)", "position": 2 }
 	],
 	"currency": "EUR"
-}]);
+});
 
 assert.equal(ecommerceParams, {
 
@@ -35,24 +36,15 @@ assert.equal(ecommerceParams, {
 	"cu": "EUR"
 	
 });
-```
 
-You can then pass `ecommerceParams` into `universal-analytics`:
-```js
-var ga = require("universal-analytics");
-
+// send together with a pageview
 var ua = ga("UA-00000000-0", "5bbb81ff-0757-44e0-8fcb-f263d982b95a", { debug: true });
-
-ua.pageview(_.merge({ dp: "/", cd20: "one", cm20: "two" }, ecommerceParams));
+ua.pageview(_.merge({ dp: "/search?q=some+product", cd20: "one", cm20: "two" }, ecommerceParams));
 ```
 
-## Todo
+## Unsupported Measurement Protocol options 
 
-* Add validation for `type`
-* Add validation for value data type
-* Add validation to disallow multiple actions in one hit (multiple impressions or combo of impressions + actions is OK)
 * Custom product dimensions/metrics
-* Warn about params that are not acceptable for actions/impressions
 * `promo` and `promo_click`
 
 ## Usage
