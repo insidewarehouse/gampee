@@ -17,11 +17,11 @@ Friends with [universal-analytics](https://www.npmjs.com/package/universal-analy
 ## Usage
 
 ```
-gampee( EcommerceData data )
-gampee( EcommerceData[] dataList )
+gampee( EcommerceAction action, [bool strict = false] )
+gampee( EcommerceAction[] actionList, [bool strict = false] )
 ```
 
-`EcommerceData` is an object with a required `type` property. `type` can be either an `impression` or one of [ecommerce 
+`EcommerceAction` is an object with a required `type` property. `type` can be either an `impression` or one of [ecommerce 
 product actions](https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pa): 
 `click`, `detail`, `add`, `remove`, `purchase`, `refund`, `checkout`, `checkout_option`. Each data item should also 
 have a list of `Product[] products`. 
@@ -29,7 +29,11 @@ have a list of `Product[] products`.
 You can send multiple items with impressions (e.g. when there are multiple lists of products on the page), but
 only one product action with each analytics hit (event, pageview, etc).
 
-See the table below for required/optional/allowed properties of `EcommerceData` and `Product`.
+When `strict` is set to `true`, the function will throw an error when it finds unrecognized params or incompatible data
+(multiple currencies, multiple product actions, etc). When `strict` is `false` (default), the function will 
+`console.warn` instead.
+
+See the table below for required/optional/allowed properties of `EcommerceAction` and `Product`.
 
 ### Params
 
