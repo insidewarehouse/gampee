@@ -17,7 +17,10 @@ Friends with [universal-analytics](https://www.npmjs.com/package/universal-analy
 
 ## Usage
 
-`var ecommerceParams = gampee( EcommerceData data | EcommerceData[] dataList )`
+```
+gampee( EcommerceData data )
+gampee( EcommerceData[] dataList )
+```
 
 `EcommerceData` is an object with a required `type` property. `type` can be either an `impression` or one of [ecommerce 
 product actions](https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pa): 
@@ -35,130 +38,22 @@ This roughly mirrors the ecommerce.js API.
 
 <table>
 <tr>
-	<td colspan=2 rowspan=2></td>
-	<th scope=col colspan=5>`type`</th>
+	<td rowspan=2></td>
+	<th scope=col colspan=5><code>type</code></th>
 </tr>
 <tr>
-	<th scope=col>`impression`</th>
-	<th scope=col>`click`, `detail`</th>
-	<th scope=col>`add`, `remove`</th>
-	<th scope=col>`purchase`, `refund`</th>
-	<th scope=col>`checkout`, `checkout_option`</th>
+	<th scope=col><code>impression</code></th>
+	<th scope=col><code>click</code>, <code>detail</code></th>
+	<th scope=col><code>add</code>, <code>remove</code></th>
+	<th scope=col><code>purchase</code>, <code>refund</code></th>
+	<th scope=col><code>checkout</code>, <code>checkout_option</code></th>
 </tr>
 <tr>
-	<th scope=row>`currency`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#cu">Currency Code</a></td>
-	<td>opt</td>
-	<td>opt</td>
-	<td>opt</td>
-	<td>opt</td>
-	<td>opt</td>
-</tr>
-<tr>
-	<th scope=row>`list`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pal">Product Action List</a>, <a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#il_nm">Product Impression List Name</a></td>
-	<td>opt</td>
-	<td>opt</td>
-	<td></td>
-	<td></td>
-	<td></td>
-</tr>
-<tr>
-	<th scope=row>`id`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#ti">Transaction ID</a></td>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td>**req**</td>
-	<td></td>
-</tr>
-<tr>
-	<th scope=row>`affiliation`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#ta">Transaction Affiliation</a></td>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td>opt</td>
-	<td></td>
-</tr>
-<tr>
-	<th scope=row>`revenue`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#tr">Transaction Revenue</a></td>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td>opt</td>
-	<td></td>
-</tr>
-<tr>
-	<th scope=row>`tax`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#tt">Transaction Tax</a></td>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td>opt</td>
-	<td></td>
-</tr>
-<tr>
-	<th scope=row>`shipping`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#ts">Transaction Shipping</a></td>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td>opt</td>
-	<td></td>
-</tr>
-<tr>
-	<th scope=row>`coupon`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#tcc">Coupon Code</a></td>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td>opt</td>
-	<td></td>
-</tr>
-<tr>
-	<th scope=row>`step`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#cos">Checkout Step</a></td>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td>opt</td>
-</tr>
-<tr>
-	<th scope=row>`option`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#col">Checkout Step Option</a></td>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td>opt</td>
-</tr>
-<tr>
-	<th colspan=7>`products[]`</th>
-</tr>
-<tr>
-	<th scope=row>`id`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_id">Product SKU</a></td>
-	<td>**req**</td>
-	<td>**req**</td>
-	<td>**req**</td>
-	<td>**req**</td>
-	<td>**req**</td>
-</tr>
-<tr>
-	<th scope=row>`name`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_nm">Product Name</a></td>
-	<td>**req**</td>
-	<td>**req**</td>
-	<td>**req**</td>
-	<td>**req**</td>
-	<td>**req**</td>
-</tr>
-<tr>
-	<th scope=row>`brand`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_br">Product Brand</a></td>
+	<th scope=row>
+		<code>currency</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#cu">Currency Code</a>
+	</th>
 	<td>opt</td>
 	<td>opt</td>
 	<td>opt</td>
@@ -166,35 +61,11 @@ This roughly mirrors the ecommerce.js API.
 	<td>opt</td>
 </tr>
 <tr>
-	<th scope=row>`category`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_ca">Product Category</a></td>
-	<td>opt</td>
-	<td>opt</td>
-	<td>opt</td>
-	<td>opt</td>
-	<td>opt</td>
-</tr>
-<tr>
-	<th scope=row>`variant`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_va">Product Variant</a></td>
-	<td>opt</td>
-	<td>opt</td>
-	<td>opt</td>
-	<td>opt</td>
-	<td>opt</td>
-</tr>
-<tr>
-	<th scope=row>`price`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_pr">Product Price</a></td>
-	<td>opt</td>
-	<td>opt</td>
-	<td>opt</td>
-	<td>opt</td>
-	<td>opt</td>
-</tr>
-<tr>
-	<th scope=row>`position`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_ps">Product Position</a></td>
+	<th scope=row>
+		<code>list</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pal">Product Action List</a>, <a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#il_nm">Product Impression List Name</a>
+	</th>
 	<td>opt</td>
 	<td>opt</td>
 	<td></td>
@@ -202,8 +73,194 @@ This roughly mirrors the ecommerce.js API.
 	<td></td>
 </tr>
 <tr>
-	<th scope=row>`coupon`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_cc">Product Coupon Code</a></td>
+	<th scope=row>
+		<code>id</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#ti">Transaction ID</a>
+	</th>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td><strong>req</strong></td>
+	<td></td>
+</tr>
+<tr>
+	<th scope=row>
+		<code>affiliation</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#ta">Transaction Affiliation</a>
+	</th>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td>opt</td>
+	<td></td>
+</tr>
+<tr>
+	<th scope=row>
+		<code>revenue</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#tr">Transaction Revenue</a>
+	</th>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td>opt</td>
+	<td></td>
+</tr>
+<tr>
+	<th scope=row>
+		<code>tax</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#tt">Transaction Tax</a>
+	</th>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td>opt</td>
+	<td></td>
+</tr>
+<tr>
+	<th scope=row>
+		<code>shipping</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#ts">Transaction Shipping</a>
+	</th>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td>opt</td>
+	<td></td>
+</tr>
+<tr>
+	<th scope=row>
+		<code>coupon</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#tcc">Coupon Code</a>
+	</th>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td>opt</td>
+	<td></td>
+</tr>
+<tr>
+	<th scope=row>
+		<code>step</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#cos">Checkout Step</a>
+	</th>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td>opt</td>
+</tr>
+<tr>
+	<th scope=row>
+		<code>option</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#col">Checkout Step Option</a>
+	</th>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td>opt</td>
+</tr>
+<tr>
+	<th colspan=7><code>products[]</code></th>
+</tr>
+<tr>
+	<th scope=row>
+		<code>id</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_id">Product SKU</a>
+	</th>
+	<td><strong>req</strong></td>
+	<td><strong>req</strong></td>
+	<td><strong>req</strong></td>
+	<td><strong>req</strong></td>
+	<td><strong>req</strong></td>
+</tr>
+<tr>
+	<th scope=row>
+		<code>name</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_nm">Product Name</a>
+	</th>
+	<td><strong>req</strong></td>
+	<td><strong>req</strong></td>
+	<td><strong>req</strong></td>
+	<td><strong>req</strong></td>
+	<td><strong>req</strong></td>
+</tr>
+<tr>
+	<th scope=row>
+		<code>brand</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_br">Product Brand</a>
+	</th>
+	<td>opt</td>
+	<td>opt</td>
+	<td>opt</td>
+	<td>opt</td>
+	<td>opt</td>
+</tr>
+<tr>
+	<th scope=row>
+		<code>category</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_ca">Product Category</a>
+	</th>
+	<td>opt</td>
+	<td>opt</td>
+	<td>opt</td>
+	<td>opt</td>
+	<td>opt</td>
+</tr>
+<tr>
+	<th scope=row>
+		<code>variant</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_va">Product Variant</a>
+	</th>
+	<td>opt</td>
+	<td>opt</td>
+	<td>opt</td>
+	<td>opt</td>
+	<td>opt</td>
+</tr>
+<tr>
+	<th scope=row>
+		<code>price</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_pr">Product Price</a>
+	</th>
+	<td>opt</td>
+	<td>opt</td>
+	<td>opt</td>
+	<td>opt</td>
+	<td>opt</td>
+</tr>
+<tr>
+	<th scope=row>
+		<code>position</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_ps">Product Position</a>
+	</th>
+	<td>opt</td>
+	<td>opt</td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<th scope=row>
+		<code>coupon</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_cc">Product Coupon Code</a>
+	</th>
 	<td></td>
 	<td>opt</td>
 	<td>opt</td>
@@ -211,8 +268,11 @@ This roughly mirrors the ecommerce.js API.
 	<td>opt</td>
 </tr>
 <tr>
-	<th scope=row>`quantity`</th>
-	<td><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_qt">Product Quantity</a></td>
+	<th scope=row>
+		<code>quantity</code>
+		<br/>
+		<a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pr_qt">Product Quantity</a>
+	</th>
 	<td></td>
 	<td></td>
 	<td>opt</td>
