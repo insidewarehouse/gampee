@@ -10,7 +10,6 @@ Friends with [universal-analytics](https://www.npmjs.com/package/universal-analy
 * Add validation for `type`
 * Add validation for value data type
 * Add validation to disallow multiple actions in one hit (multiple impressions or combo of impressions + actions is OK)
-* Product action: `checkout_option` and action detail `option`
 * Custom product dimensions/metrics
 * Warn about params that are not acceptable for actions/impressions
 * `promo` and `promo_click`
@@ -34,7 +33,7 @@ See the table below for required/optional/allowed properties of `EcommerceData` 
 
 ### Params
 
-This roughly mirrors the ecommerce.js API.
+This roughly mirrors [the ecommerce.js API](https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-ecommerce#ecommerce-data).
 
 <table>
 <tr>

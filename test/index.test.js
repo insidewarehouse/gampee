@@ -308,6 +308,27 @@ describe("gampee", function () {
 			});
 
 		});
+
+	});
+
+	describe("type=checkout_option", function () {
+
+		it("should accept checkout step", function () {
+
+			var ecommerceParams = gampee({
+				"type": "checkout_option",
+				"option": "Visa"
+			});
+
+			expect(ecommerceParams).to.eql({
+
+				"pa": "checkout_option",
+				"col": "Visa"
+
+			});
+
+		});
+
 	});
 
 });
