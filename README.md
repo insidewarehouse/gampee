@@ -5,6 +5,47 @@
 Converts and validates humanly understandable Enhanced E-commerce params into Measurement Protocol.
 Friends with [universal-analytics](https://www.npmjs.com/package/universal-analytics).
 
+## Example
+
+```js
+var gampee = require("gampee");
+
+var ecommerceParams = gampee([{
+	"type": "impression",
+	"list": "search",
+	"products": [
+		{ "id": "shirtM", "name": "Nice T-Shirt (M)", "position": 1 },
+		{ "id": "shirtXL", "name": "Nice T-Shirt (XL)", "position": 2 }
+	],
+	"currency": "EUR"
+}]);
+
+assert.equal(ecommerceParams, {
+
+	"il0nm": "search",
+
+	"il0pi0id": "shirtM",
+	"il0pi0nm": "Nice T-Shirt (M)",
+	"il0pi0ps": 1,
+
+	"il0pi1id": "shirtXL",
+	"il0pi1nm": "Nice T-Shirt (XL)",
+	"il0pi1ps": 2,
+	
+	"cu": "EUR"
+	
+});
+```
+
+You can then pass `ecommerceParams` into `universal-analytics`:
+```js
+var ga = require("universal-analytics");
+
+var ua = ga("UA-00000000-0", "5bbb81ff-0757-44e0-8fcb-f263d982b95a", { debug: true });
+
+ua.pageview(_.merge({ dp: "/", cd20: "one", cm20: "two" }, ecommerceParams));
+```
+
 ## Todo
 
 * Add validation for `type`
@@ -283,47 +324,6 @@ This roughly mirrors [the ecommerce.js API](https://developers.google.com/analyt
 	<td>opt</td>
 </tr>
 </table>
-
-### Example
-
-```js
-var gampee = require("gampee");
-
-var ecommerceParams = gampee([{
-	"type": "impression",
-	"list": "search",
-	"products": [
-		{ "id": "shirtM", "name": "Nice T-Shirt (M)", "position": 1 },
-		{ "id": "shirtXL", "name": "Nice T-Shirt (XL)", "position": 2 }
-	],
-	"currency": "EUR"
-}]);
-
-assert.equal(ecommerceParams, {
-
-	"il0nm": "search",
-
-	"il0pi0id": "shirtM",
-	"il0pi0nm": "Nice T-Shirt (M)",
-	"il0pi0ps": 1,
-
-	"il0pi1id": "shirtXL",
-	"il0pi1nm": "Nice T-Shirt (XL)",
-	"il0pi1ps": 2,
-	
-	"cu": "EUR"
-	
-});
-```
-
-You can then pass `ecommerceParams` into `universal-analytics`:
-```js
-var ga = require("universal-analytics");
-
-var ua = ga("UA-00000000-0", "5bbb81ff-0757-44e0-8fcb-f263d982b95a", { debug: true });
-
-ua.pageview(_.merge({ dp: "/", cd20: "one", cm20: "two" }, ecommerceParams));
-```
 
 ## Google's documentation
 
