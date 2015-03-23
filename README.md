@@ -5,10 +5,24 @@
 Converts and validates humanly understandable Enhanced E-commerce params into Measurement Protocol.
 Friends with [universal-analytics](https://www.npmjs.com/package/universal-analytics).
 
+## Note: unsupported options
+
+Due to lack of know-how/MVP-ness, these are not supported (feel free to PR):
+
+* Product action: `checkout_option` and action detail `option`
+* `promo` and `promo_click`
+* Custom product dimensions/metrics
+
+## Todo
+
+* Add validation for `type`
+* Add validation for value data type
+* Add validation to disallow multiple actions in one hit (multiple impressions or combo of impressions + actions is OK)
+* Discard params that are not acceptable for actions/impressions
+
 ## Usage
 
 ```js
-
 var gampee = require("gampee");
 
 var ecommerceParams = gampee([{
@@ -17,7 +31,8 @@ var ecommerceParams = gampee([{
 	"products": [
 		{ "id": "shirtM", "name": "Nice T-Shirt (M)", "position": 1 },
 		{ "id": "shirtXL", "name": "Nice T-Shirt (XL)", "position": 2 }
-	]
+	],
+	"currency": "EUR"
 }]);
 
 assert.equal(ecommerceParams, {
@@ -30,50 +45,69 @@ assert.equal(ecommerceParams, {
 
 	"il0pi1id": "shirtXL",
 	"il0pi1nm": "Nice T-Shirt (XL)",
-	"il0pi1ps": 2
+	"il0pi1ps": 2,
+	
+	"cu": "EUR"
 	
 });
 ```
 
 Product:
-
 ```
 { 
 	id, 
 	name, 
-	[brand,] 
-	[category,] 
-	[variant,] 
-	[price,]
-	[quantity,]
-	[position,]
+	[brand, category, variant, price] 
+	[quantity, coupon, position]
 }
 ```
 
-E-commerce action/impression:
-
+E-commerce impression:
 ```
 {
-	type: [impression,click,detail,add,remove,checkout,checkout_option,purchase,refund,promo_click],
+	type: "impression",
+	Product[] products (with position (opt)),
+	[currency]
+	[list]
+}
+```
 
-	[id,]
+E-commerce action (`click`, `detail`):
+```
+{
+	type: "click" | "detail",
+	Product[] products (with position (opt), coupon (opt)),
+	[currency]
+	[affiliation, list]
+}
+```
 
-	[Product[] products,]
-
-	[affiliation,]
-	[revenue,]
-	[tax,]
-	[shipping,]
-
-	[coupon,]
-
-	[list,]
-
-	[step,]
-	[option,]
-
+E-commerce action (`add`, `remove`):
+```
+{
+	type: "add" | "remove",
+	Product[] products (with quantity (opt), coupon (opt))
 	[currency]
 }
+```
+
+E-commerce action (`purchase`, `refund`):
+```
+{
+	type: "purchase" | "refund",
+	id,
+	Product[] products (with quantity (req), coupon (opt))
+	[currency]
+	[affiliation, revenue, tax, shipping, coupon]
+}
+```
+
+E-commerce action (`checkout`)
+```
+	type: "checkout",
+	Product[] products (with quantity (req), coupon (opt)),
+	[currency]
+	[step]
 ```
 
 ## Google's documentation

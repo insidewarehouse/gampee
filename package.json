@@ -24,9 +24,6 @@
     "url": "https://github.com/insidewarehouse/gampee/issues"
   },
   "homepage": "https://github.com/insidewarehouse/gampee",
-  "dependencies": {
-    "joi": "6.x"
-  },
   "devDependencies": {
     "chai": "2.x",
     "grunt": "0.4.x",
