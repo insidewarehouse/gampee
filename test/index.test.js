@@ -3,66 +3,113 @@
 var expect = require("chai").expect,
 	gampee = require("../index");
 
+function testValidation(input, expectedError) {
+	return function () {
+
+		var log = [];
+		gampee(input, function (msg) {
+			log.push(msg);
+			// note: discarding other params
+		});
+
+		expect(log).to.eql([expectedError]);
+	}
+}
+
 describe("gampee", function () {
 
-	var callGampeeWith = function () {
-		var args = Array.prototype.slice.apply(arguments);
-		return function () {
-			gampee.apply(gampee, args);
-		};
-	};
+	it("should return empty object when called without params", function () {
+		expect(gampee()).to.eql({});
+	});
 
 	describe("validation", function () {
 
-		it("should throw when called without params", function () {
 
-			expect(callGampeeWith()).to.throw(TypeError);
+		it("should log when no type set", testValidation(
+			{},
+			"No type on action item"
+		));
 
-		});
+		it("should log when bolix type set", testValidation(
+			{type: "bolix"},
+			"Invalid action type"
+		));
 
-		it("should throw when no type set", function () {
+		it("should log when sending multiple actions", testValidation(
+			[{type: "click"}, {type: "detail"}],
+			"Multiple actions not allowed in one request"
+		));
 
-			expect(callGampeeWith({}, true)).to.throw(TypeError);
+		it("should log when no transaction ID for purchase", testValidation(
+			{type: "purchase"},
+			"Purchase/refund actions need a transaction ID"
+		));
 
-		});
+		it("should log when no transaction ID for refund", testValidation(
+			{type: "refund"},
+			"Purchase/refund actions need a transaction ID"
+		));
 
-		it("should throw when bolix type set", function () {
+		it("should log when product has no ID", testValidation(
+			{
+				type: "impression",
+				products: [{
+					name: "o hai"
+				}]
+			},
+			"Product SKU number is required"
+		));
 
-			expect(callGampeeWith({type: "bolix"}, true)).to.throw(TypeError);
+		it("should log when product has no name", testValidation(
+			{
+				type: "impression",
+				products: [{
+					id: "o-hai-123"
+				}]
+			},
+			"Product name is required"
+		));
 
-		});
+		it("should log multiple errors", function () {
 
-		it("should throw when sending multiple actions", function () {
-
-			expect(callGampeeWith([{type: "click"}, {type: "detail"}], true)).to.throw(TypeError);
-
-		});
-
-		it("should throw when no transaction ID for purchase", function () {
-
-			expect(callGampeeWith({type: "purchase"}, true)).to.throw(TypeError);
-
-		});
-
-		it("should throw when no transaction ID for refund", function () {
-
-			expect(callGampeeWith({type: "refund"}, true)).to.throw(TypeError);
-
-		});
-
-		it("should throw when product has no ID", function () {
-			var product = {
-				name: "o hai"
+			var namelessProduct = {"id": "shirtM", "quantity": 3};
+			var badImpression = {
+				"type": "impression",
+				"step": 2, // `step` not allowed on impression
+				"products": [namelessProduct],
+				"currency": "EUR"
 			};
-			expect(callGampeeWith({type: "impression", products: [ product ]}, true)).to.throw(TypeError);
-		});
 
-		it("should throw when product has no name", function () {
-			var product = {
-				id: "o-hai-123"
-			};
-			expect(callGampeeWith({type: "impression", products: [ product ]}, true)).to.throw(TypeError);
-		});
+			var log = [];
+			var result = gampee(badImpression, function (msg, data) {
+				log.push([ msg, data ]);
+			});
+
+			expect(log).to.eql([
+
+				[
+					"Unexpected params for action type",
+					{ ecActionItem: badImpression, unexpectedParams: [ "step" ] }
+				],
+
+				[
+					"Product name is required",
+					{ ecProductItem: namelessProduct }
+				],
+
+				[
+					"Unexpected product params for action type",
+					{ ecProductItem: namelessProduct, actionType: "impression", unexpectedParams: ["quantity"] }
+				]
+
+			]);
+
+			expect(result).to.eql({
+				"cu": "EUR",
+				"il0pi0id": "shirtM",
+				"il0pi0qt": "3"
+			}, "Should still product an attempt at a result.")
+		})
 
 	});
 
@@ -182,20 +229,22 @@ describe("gampee", function () {
 			});
 		});
 
-		it("should throw on unexpected action params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected action params", testValidation(
+			{
 				"type": "impression",
 				"step": 2,
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)"}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected params for action type"
+		));
 
-		it("should throw on unexpected product params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected product params", testValidation(
+			{
 				"type": "impression",
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)", "quantity": 3}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected product params for action type"
+		));
 
 	});
 
@@ -297,20 +346,24 @@ describe("gampee", function () {
 
 		});
 
-		it("should throw on unexpected action params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected action params", testValidation(
+			{
 				"type": "purchase",
 				"step": 2,
+				"id": "T1",
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)"}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected params for action type"
+		));
 
-		it("should throw on unexpected product params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected product params", testValidation(
+			{
 				"type": "purchase",
+				"id": "T1",
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)", "position": 3}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected product params for action type"
+		));
 
 	});
 
@@ -412,20 +465,24 @@ describe("gampee", function () {
 
 		});
 
-		it("should throw on unexpected action params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected action params", testValidation(
+			{
 				"type": "refund",
+				"id": "T1",
 				"step": 2,
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)"}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected params for action type"
+		));
 
-		it("should throw on unexpected product params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected product params", testValidation(
+			{
 				"type": "refund",
+				"id": "T1",
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)", "position": 3}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected product params for action type"
+		));
 
 	});
 
@@ -437,7 +494,7 @@ describe("gampee", function () {
 				"type": "click",
 				"list": "search",
 				"products": [
-					{"id": "shirtM", "name": "Nice T-Shirt (M)", "position": 3, "coupon":"SUMMER"}
+					{"id": "shirtM", "name": "Nice T-Shirt (M)", "position": 3, "coupon": "SUMMER"}
 				]
 			});
 
@@ -455,20 +512,22 @@ describe("gampee", function () {
 
 		});
 
-		it("should throw on unexpected action params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected action params", testValidation(
+			{
 				"type": "click",
 				"step": 2,
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)"}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected params for action type"
+		));
 
-		it("should throw on unexpected product params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected product params", testValidation(
+			{
 				"type": "click",
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)", "quantity": 3}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected product params for action type"
+		));
 
 	});
 
@@ -479,7 +538,7 @@ describe("gampee", function () {
 			var ecommerceParams = gampee({
 				"type": "add",
 				"products": [
-					{"id": "shirtM", "name": "Nice T-Shirt (M)", "quantity": 3, "coupon":"SUMMER"}
+					{"id": "shirtM", "name": "Nice T-Shirt (M)", "quantity": 3, "coupon": "SUMMER"}
 				]
 			});
 
@@ -496,20 +555,22 @@ describe("gampee", function () {
 
 		});
 
-		it("should throw on unexpected action params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected action params", testValidation(
+			{
 				"type": "add",
 				"step": 2,
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)"}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected params for action type"
+		));
 
-		it("should throw on unexpected product params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected product params", testValidation(
+			{
 				"type": "add",
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)", "position": 3}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected product params for action type"
+		));
 
 	});
 
@@ -520,7 +581,7 @@ describe("gampee", function () {
 			var ecommerceParams = gampee({
 				"type": "remove",
 				"products": [
-					{"id": "shirtM", "name": "Nice T-Shirt (M)", "quantity": 3, "coupon":"SUMMER"}
+					{"id": "shirtM", "name": "Nice T-Shirt (M)", "quantity": 3, "coupon": "SUMMER"}
 				]
 			});
 
@@ -537,20 +598,22 @@ describe("gampee", function () {
 
 		});
 
-		it("should throw on unexpected action params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected action params", testValidation(
+			{
 				"type": "remove",
 				"step": 2,
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)"}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected params for action type"
+		));
 
-		it("should throw on unexpected product params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected product params", testValidation(
+			{
 				"type": "remove",
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)", "position": 3}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected product params for action type"
+		));
 
 	});
 
@@ -562,7 +625,7 @@ describe("gampee", function () {
 				"type": "detail",
 				"list": "search",
 				"products": [
-					{"id": "shirtM", "name": "Nice T-Shirt (M)", "position": 3, "coupon":"SUMMER"}
+					{"id": "shirtM", "name": "Nice T-Shirt (M)", "position": 3, "coupon": "SUMMER"}
 				]
 			});
 
@@ -580,20 +643,22 @@ describe("gampee", function () {
 
 		});
 
-		it("should throw on unexpected action params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected action params", testValidation(
+			{
 				"type": "detail",
 				"step": 2,
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)"}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected params for action type"
+		));
 
-		it("should throw on unexpected product params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected product params", testValidation(
+			{
 				"type": "detail",
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)", "quantity": 3}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected product params for action type"
+		));
 
 	});
 
@@ -623,20 +688,22 @@ describe("gampee", function () {
 
 		});
 
-		it("should throw on unexpected action params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected action params", testValidation(
+			{
 				"type": "checkout",
 				"list": "search",
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)"}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected params for action type"
+		));
 
-		it("should throw on unexpected product params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected product params", testValidation(
+			{
 				"type": "checkout",
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)", "position": 3}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected product params for action type"
+		));
 
 	});
 
@@ -668,20 +735,22 @@ describe("gampee", function () {
 
 		});
 
-		it("should throw on unexpected action params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected action params", testValidation(
+			{
 				"type": "checkout_option",
 				"list": "search",
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)"}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected params for action type"
+		));
 
-		it("should throw on unexpected product params", function () {
-			expect(callGampeeWith({
+		it("should log on unexpected product params", testValidation(
+			{
 				"type": "checkout_option",
 				"products": [{"id": "shirtM", "name": "Nice T-Shirt (M)", "position": 3}]
-			}, true)).to.throw(TypeError);
-		});
+			},
+			"Unexpected product params for action type"
+		));
 
 	});
 

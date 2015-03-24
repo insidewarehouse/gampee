@@ -50,8 +50,8 @@ ua.pageview(_.merge({ dp: "/search?q=some+product", cd20: "one", cm20: "two" }, 
 ## Usage
 
 ```
-gampee( EcommerceAction action, [bool strict = false] )
-gampee( EcommerceAction[] actionList, [bool strict = false] )
+gampee( EcommerceAction action, [function onValidationError] )
+gampee( EcommerceAction[] actionList, [function onValidationError] )
 ```
 
 `EcommerceAction` is an object with a required `type` property. `type` can be either an `impression` or one of [ecommerce 
@@ -62,9 +62,8 @@ have a list of `Product[] products`.
 You can send multiple items with impressions (e.g. when there are multiple lists of products on the page), but
 only one product action with each analytics hit (event, pageview, etc).
 
-When `strict` is set to `true`, the function will throw an error when it finds unrecognized params or incompatible data
-(multiple currencies, multiple product actions, etc). When `strict` is `false` (default), the function will 
-`console.warn` instead.
+If `onValidationError` is passed in (default: `void`), it will be called with details of every validation warning, e.g.
+`gampee( myParams, console.warn.bind(console));`
 
 See the table below for required/optional/allowed properties of `EcommerceAction` and `Product`.
 

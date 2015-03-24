@@ -1,32 +1,45 @@
 var mappings = require("./lib/mappings"),
-	validate = require("./lib/validate"),
-	utils = require("./lib/utils");
+	validate = require("./lib/validate");
 
-function gampee(actionList, strict) {
+function copyValues(source, keyPrefix, valueMap, target) {
+	valueMap.forEach(function (mapItem) {
+		var from = mapItem[0], to = mapItem[1];
+
+		if (source[from]) {
+			target[keyPrefix + to] = "" + source[from];
+		}
+	});
+}
+
+function noop() {
+	// void
+}
+
+function gampee(actionList, onValidationError) {
 
 	if (!actionList) {
-		throw new TypeError("actionList is required");
+		return {};
 	}
 
 	if (!Array.isArray(actionList)) {
 		actionList = [actionList];
 	}
 
-	var validationCallback = strict ? utils.throwOnError : utils.consoleWarnOnError;
+	onValidationError = onValidationError || noop;
 
-	validate.hit(actionList, validationCallback);
+	validate.hit(actionList, onValidationError);
 
 	var ecParams = {};
 	actionList.forEach(function (actionItem, diIdx) {
 
-		validate.action(actionItem, validationCallback);
+		validate.action(actionItem, onValidationError);
 
 		if (actionItem.type === "impression") {
-			utils.copyValues(actionItem, "il" + diIdx, mappings.impression, ecParams);
+			copyValues(actionItem, "il" + diIdx, mappings.impression, ecParams);
 		}
 
 		if (actionItem.type !== "impression") {
-			utils.copyValues(actionItem, "", mappings.action, ecParams);
+			copyValues(actionItem, "", mappings.action, ecParams);
 		}
 
 		if (actionItem.currency) {
@@ -36,10 +49,10 @@ function gampee(actionList, strict) {
 		if (actionItem.products) {
 			actionItem.products.forEach(function (productItem, piIdx) {
 
-				validate.product(productItem, actionItem.type, validationCallback);
+				validate.product(productItem, actionItem.type, onValidationError);
 
 				var productKeyPrefix = actionItem.type === "impression" ? ("il" + diIdx + "pi" + piIdx) : ("pr" + piIdx);
-				utils.copyValues(productItem, productKeyPrefix, mappings.product, ecParams);
+				copyValues(productItem, productKeyPrefix, mappings.product, ecParams);
 
 			});
 		}
