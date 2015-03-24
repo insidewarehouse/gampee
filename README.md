@@ -5,23 +5,56 @@
 Converts and validates humanly understandable Enhanced E-commerce params into Measurement Protocol.
 Friends with [universal-analytics](https://www.npmjs.com/package/universal-analytics).
 
-## Todo
+## Example
 
-* Add validation for `type`
-* Add validation for value data type
-* Add validation to disallow multiple actions in one hit (multiple impressions or combo of impressions + actions is OK)
+```js
+var gampee = require("gampee"),
+	ga = require("universal-analytics");
+
+var ecommerceParams = gampee({
+	"type": "impression",
+	"list": "search",
+	"products": [
+		{ "id": "shirtM", "name": "Nice T-Shirt (M)", "position": 1 },
+		{ "id": "shirtXL", "name": "Nice T-Shirt (XL)", "position": 2 }
+	],
+	"currency": "EUR"
+});
+
+assert.equal(ecommerceParams, {
+
+	"il0nm": "search",
+
+	"il0pi0id": "shirtM",
+	"il0pi0nm": "Nice T-Shirt (M)",
+	"il0pi0ps": 1,
+
+	"il0pi1id": "shirtXL",
+	"il0pi1nm": "Nice T-Shirt (XL)",
+	"il0pi1ps": 2,
+	
+	"cu": "EUR"
+	
+});
+
+// send together with a pageview
+var ua = ga("UA-00000000-0", "5bbb81ff-0757-44e0-8fcb-f263d982b95a", { debug: true });
+ua.pageview(_.merge({ dp: "/search?q=some+product", cd20: "one", cm20: "two" }, ecommerceParams));
+```
+
+## Unsupported Measurement Protocol options 
+
 * Custom product dimensions/metrics
-* Warn about params that are not acceptable for actions/impressions
 * `promo` and `promo_click`
 
 ## Usage
 
 ```
-gampee( EcommerceData data )
-gampee( EcommerceData[] dataList )
+gampee( EcommerceAction action, [function onValidationError] )
+gampee( EcommerceAction[] actionList, [function onValidationError] )
 ```
 
-`EcommerceData` is an object with a required `type` property. `type` can be either an `impression` or one of [ecommerce 
+`EcommerceAction` is an object with a required `type` property. `type` can be either an `impression` or one of [ecommerce 
 product actions](https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#pa): 
 `click`, `detail`, `add`, `remove`, `purchase`, `refund`, `checkout`, `checkout_option`. Each data item should also 
 have a list of `Product[] products`. 
@@ -29,7 +62,10 @@ have a list of `Product[] products`.
 You can send multiple items with impressions (e.g. when there are multiple lists of products on the page), but
 only one product action with each analytics hit (event, pageview, etc).
 
-See the table below for required/optional/allowed properties of `EcommerceData` and `Product`.
+If `onValidationError` is passed in (default: `void`), it will be called with details of every validation warning, e.g.
+`gampee( myParams, console.warn.bind(console));`
+
+See the table below for required/optional/allowed properties of `EcommerceAction` and `Product`.
 
 ### Params
 
@@ -279,47 +315,6 @@ This roughly mirrors [the ecommerce.js API](https://developers.google.com/analyt
 	<td>opt</td>
 </tr>
 </table>
-
-### Example
-
-```js
-var gampee = require("gampee");
-
-var ecommerceParams = gampee([{
-	"type": "impression",
-	"list": "search",
-	"products": [
-		{ "id": "shirtM", "name": "Nice T-Shirt (M)", "position": 1 },
-		{ "id": "shirtXL", "name": "Nice T-Shirt (XL)", "position": 2 }
-	],
-	"currency": "EUR"
-}]);
-
-assert.equal(ecommerceParams, {
-
-	"il0nm": "search",
-
-	"il0pi0id": "shirtM",
-	"il0pi0nm": "Nice T-Shirt (M)",
-	"il0pi0ps": 1,
-
-	"il0pi1id": "shirtXL",
-	"il0pi1nm": "Nice T-Shirt (XL)",
-	"il0pi1ps": 2,
-	
-	"cu": "EUR"
-	
-});
-```
-
-You can then pass `ecommerceParams` into `universal-analytics`:
-```js
-var ga = require("universal-analytics");
-
-var ua = ga("UA-00000000-0", "5bbb81ff-0757-44e0-8fcb-f263d982b95a", { debug: true });
-
-ua.pageview(_.merge({ dp: "/", cd20: "one", cm20: "two" }, ecommerceParams));
-```
 
 ## Google's documentation
 
