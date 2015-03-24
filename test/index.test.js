@@ -13,7 +13,7 @@ function testValidation(input, expectedError) {
 		});
 
 		expect(log).to.eql([expectedError]);
-	}
+	};
 }
 
 describe("gampee", function () {
@@ -108,8 +108,8 @@ describe("gampee", function () {
 				"cu": "EUR",
 				"il0pi0id": "shirtM",
 				"il0pi0qt": "3"
-			}, "Should still product an attempt at a result.")
-		})
+			}, "Should still product an attempt at a result.");
+		});
 
 	});
 
