@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/insidewarehouse/gampee",
   "devDependencies": {
+    "blanket": "1.x",
     "chai": "2.x",
     "grunt": "0.4.x",
     "grunt-checkbranch": "0.3.x",

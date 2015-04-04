@@ -17,9 +17,18 @@ module.exports = function (grunt) {
 		"mochaTest": {
 			"test": {
 				options: {
-					reporter: "spec"
+					reporter: "spec",
+					require: "test/blanket"
 				},
 				src: ["test/**/*.js"]
+			},
+			"coverage": {
+				options: {
+					reporter: "html-cov",
+					quiet: true,
+					captureFile: "coverage/coverage.html"
+				},
+				src: ["test/**/*.test.js"]
 			}
 		},
 		"watch": {
