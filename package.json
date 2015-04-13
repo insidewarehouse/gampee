@@ -1,6 +1,6 @@
 {
   "name": "gampee",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Helps out with Google Analytics Measurement Protocol Enhanced Ecommerce params",
   "main": "index.js",
   "scripts": {
