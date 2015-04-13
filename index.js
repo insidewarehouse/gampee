@@ -15,6 +15,10 @@ function noop() {
 	// void
 }
 
+function idx(i) {
+	return i + 1;
+}
+
 function gampee(actionList, onValidationError) {
 
 	if (!actionList) {
@@ -35,7 +39,7 @@ function gampee(actionList, onValidationError) {
 		validate.action(actionItem, onValidationError);
 
 		if (actionItem.type === "impression") {
-			copyValues(actionItem, "il" + diIdx, mappings.impression, ecParams);
+			copyValues(actionItem, "il" + idx(diIdx), mappings.impression, ecParams);
 		}
 
 		if (actionItem.type !== "impression") {
@@ -51,7 +55,7 @@ function gampee(actionList, onValidationError) {
 
 				validate.product(productItem, actionItem.type, onValidationError);
 
-				var productKeyPrefix = actionItem.type === "impression" ? ("il" + diIdx + "pi" + piIdx) : ("pr" + piIdx);
+				var productKeyPrefix = actionItem.type === "impression" ? ("il" + idx(diIdx) + "pi" + idx(piIdx)) : ("pr" + idx(piIdx));
 				copyValues(productItem, productKeyPrefix, mappings.product, ecParams);
 
 			});

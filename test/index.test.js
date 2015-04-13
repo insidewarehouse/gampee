@@ -82,32 +82,32 @@ describe("gampee", function () {
 
 			var log = [];
 			var result = gampee(badImpression, function (msg, data) {
-				log.push([ msg, data ]);
+				log.push([msg, data]);
 			});
 
 			expect(log).to.eql([
 
 				[
 					"Unexpected params for action type",
-					{ ecActionItem: badImpression, unexpectedParams: [ "step" ] }
+					{ecActionItem: badImpression, unexpectedParams: ["step"]}
 				],
 
 				[
 					"Product name is required",
-					{ ecProductItem: namelessProduct }
+					{ecProductItem: namelessProduct}
 				],
 
 				[
 					"Unexpected product params for action type",
-					{ ecProductItem: namelessProduct, actionType: "impression", unexpectedParams: ["quantity"] }
+					{ecProductItem: namelessProduct, actionType: "impression", unexpectedParams: ["quantity"]}
 				]
 
 			]);
 
 			expect(result).to.eql({
 				"cu": "EUR",
-				"il0pi0id": "shirtM",
-				"il0pi0qt": "3"
+				"il1pi1id": "shirtM",
+				"il1pi1qt": "3"
 			}, "Should still product an attempt at a result.");
 		});
 
@@ -128,15 +128,15 @@ describe("gampee", function () {
 
 			expect(ecommerceParams).to.eql({
 
-				"il0nm": "search",
+				"il1nm": "search",
 
-				"il0pi0id": "shirtM",
-				"il0pi0nm": "Nice T-Shirt (M)",
-				"il0pi0ps": "1",
+				"il1pi1id": "shirtM",
+				"il1pi1nm": "Nice T-Shirt (M)",
+				"il1pi1ps": "1",
 
-				"il0pi1id": "shirtXL",
-				"il0pi1nm": "Nice T-Shirt (XL)",
-				"il0pi1ps": "2",
+				"il1pi2id": "shirtXL",
+				"il1pi2nm": "Nice T-Shirt (XL)",
+				"il1pi2ps": "2",
 
 				"cu": "EUR"
 
@@ -165,21 +165,21 @@ describe("gampee", function () {
 
 			expect(ecommerceParams).to.eql({
 
-				"il0nm": "search",
+				"il1nm": "search",
 
-				"il0pi0id": "shirtM",
-				"il0pi0nm": "Nice T-Shirt (M)",
-				"il0pi0ps": "1",
+				"il1pi1id": "shirtM",
+				"il1pi1nm": "Nice T-Shirt (M)",
+				"il1pi1ps": "1",
 
-				"il0pi1id": "shirtXL",
-				"il0pi1nm": "Nice T-Shirt (XL)",
-				"il0pi1ps": "2",
+				"il1pi2id": "shirtXL",
+				"il1pi2nm": "Nice T-Shirt (XL)",
+				"il1pi2ps": "2",
 
-				"il1nm": "promo",
+				"il2nm": "promo",
 
-				"il1pi0id": "pants",
-				"il1pi0nm": "Baggy Pants",
-				"il1pi0ps": "1"
+				"il2pi1id": "pants",
+				"il2pi1nm": "Baggy Pants",
+				"il2pi1ps": "1"
 
 			});
 
@@ -203,14 +203,14 @@ describe("gampee", function () {
 
 			expect(ecommerceParams).to.eql({
 
-				"il0nm": "search",
+				"il1nm": "search",
 
-				"il0pi0id": "shirtM",
-				"il0pi0nm": "Nice T-Shirt (M)",
-				"il0pi0br": "TeeShart co.",
-				"il0pi0ca": "Men",
-				"il0pi0va": "Black",
-				"il0pi0pr": "12.95"
+				"il1pi1id": "shirtM",
+				"il1pi1nm": "Nice T-Shirt (M)",
+				"il1pi1br": "TeeShart co.",
+				"il1pi1ca": "Men",
+				"il1pi1va": "Black",
+				"il1pi1pr": "12.95"
 
 			});
 		});
@@ -223,8 +223,8 @@ describe("gampee", function () {
 
 			expect(ecommerceParams).to.eql({
 
-				"il0pi0id": "shirtM",
-				"il0pi0nm": "Nice T-Shirt (M)"
+				"il1pi1id": "shirtM",
+				"il1pi1nm": "Nice T-Shirt (M)"
 
 			});
 		});
@@ -266,11 +266,11 @@ describe("gampee", function () {
 				"pa": "purchase",
 				"ti": "T1234",
 
-				"pr0id": "shirtM",
-				"pr0nm": "Nice T-Shirt (M)",
+				"pr1id": "shirtM",
+				"pr1nm": "Nice T-Shirt (M)",
 
-				"pr1id": "shirtXL",
-				"pr1nm": "Nice T-Shirt (XL)"
+				"pr2id": "shirtXL",
+				"pr2nm": "Nice T-Shirt (XL)"
 
 			});
 
@@ -300,14 +300,14 @@ describe("gampee", function () {
 				"pa": "purchase",
 				"ti": "T1234",
 
-				"pr0id": "shirtM",
-				"pr0nm": "Nice T-Shirt (M)",
-				"pr0br": "TeeShart co.",
-				"pr0ca": "Men",
-				"pr0va": "Black",
-				"pr0pr": "12.95",
-				"pr0qt": "3",
-				"pr0cc": "SHIRT-SALE"
+				"pr1id": "shirtM",
+				"pr1nm": "Nice T-Shirt (M)",
+				"pr1br": "TeeShart co.",
+				"pr1ca": "Men",
+				"pr1va": "Black",
+				"pr1pr": "12.95",
+				"pr1qt": "3",
+				"pr1cc": "SHIRT-SALE"
 
 			});
 
@@ -339,8 +339,8 @@ describe("gampee", function () {
 				"ts": "1.5",
 				"tcc": "15OFF",
 
-				"pr0id": "shirtM",
-				"pr0nm": "Nice T-Shirt (M)"
+				"pr1id": "shirtM",
+				"pr1nm": "Nice T-Shirt (M)"
 
 			});
 
@@ -385,11 +385,11 @@ describe("gampee", function () {
 				"pa": "refund",
 				"ti": "T1234",
 
-				"pr0id": "shirtM",
-				"pr0nm": "Nice T-Shirt (M)",
+				"pr1id": "shirtM",
+				"pr1nm": "Nice T-Shirt (M)",
 
-				"pr1id": "shirtXL",
-				"pr1nm": "Nice T-Shirt (XL)"
+				"pr2id": "shirtXL",
+				"pr2nm": "Nice T-Shirt (XL)"
 
 			});
 
@@ -419,14 +419,14 @@ describe("gampee", function () {
 				"pa": "refund",
 				"ti": "T1234",
 
-				"pr0id": "shirtM",
-				"pr0nm": "Nice T-Shirt (M)",
-				"pr0br": "TeeShart co.",
-				"pr0ca": "Men",
-				"pr0va": "Black",
-				"pr0pr": "12.95",
-				"pr0qt": "3",
-				"pr0cc": "SHIRT-SALE"
+				"pr1id": "shirtM",
+				"pr1nm": "Nice T-Shirt (M)",
+				"pr1br": "TeeShart co.",
+				"pr1ca": "Men",
+				"pr1va": "Black",
+				"pr1pr": "12.95",
+				"pr1qt": "3",
+				"pr1cc": "SHIRT-SALE"
 
 			});
 
@@ -458,8 +458,8 @@ describe("gampee", function () {
 				"ts": "1.5",
 				"tcc": "15OFF",
 
-				"pr0id": "shirtM",
-				"pr0nm": "Nice T-Shirt (M)"
+				"pr1id": "shirtM",
+				"pr1nm": "Nice T-Shirt (M)"
 
 			});
 
@@ -503,10 +503,10 @@ describe("gampee", function () {
 				"pa": "click",
 				"pal": "search",
 
-				"pr0id": "shirtM",
-				"pr0nm": "Nice T-Shirt (M)",
-				"pr0ps": "3",
-				"pr0cc": "SUMMER"
+				"pr1id": "shirtM",
+				"pr1nm": "Nice T-Shirt (M)",
+				"pr1ps": "3",
+				"pr1cc": "SUMMER"
 
 			});
 
@@ -546,10 +546,10 @@ describe("gampee", function () {
 
 				"pa": "add",
 
-				"pr0id": "shirtM",
-				"pr0nm": "Nice T-Shirt (M)",
-				"pr0qt": "3",
-				"pr0cc": "SUMMER"
+				"pr1id": "shirtM",
+				"pr1nm": "Nice T-Shirt (M)",
+				"pr1qt": "3",
+				"pr1cc": "SUMMER"
 
 			});
 
@@ -589,10 +589,10 @@ describe("gampee", function () {
 
 				"pa": "remove",
 
-				"pr0id": "shirtM",
-				"pr0nm": "Nice T-Shirt (M)",
-				"pr0qt": "3",
-				"pr0cc": "SUMMER"
+				"pr1id": "shirtM",
+				"pr1nm": "Nice T-Shirt (M)",
+				"pr1qt": "3",
+				"pr1cc": "SUMMER"
 
 			});
 
@@ -634,10 +634,10 @@ describe("gampee", function () {
 				"pa": "detail",
 				"pal": "search",
 
-				"pr0id": "shirtM",
-				"pr0nm": "Nice T-Shirt (M)",
-				"pr0ps": "3",
-				"pr0cc": "SUMMER"
+				"pr1id": "shirtM",
+				"pr1nm": "Nice T-Shirt (M)",
+				"pr1ps": "3",
+				"pr1cc": "SUMMER"
 
 			});
 
@@ -679,10 +679,10 @@ describe("gampee", function () {
 				"pa": "checkout",
 				"cos": "2",
 
-				"pr0id": "shirtM",
-				"pr0nm": "Nice T-Shirt (M)",
-				"pr0qt": "5",
-				"pr0cc": "SUMMER"
+				"pr1id": "shirtM",
+				"pr1nm": "Nice T-Shirt (M)",
+				"pr1qt": "5",
+				"pr1cc": "SUMMER"
 
 			});
 
@@ -726,10 +726,10 @@ describe("gampee", function () {
 				"col": "Visa",
 				"cos": "2",
 
-				"pr0id": "shirtM",
-				"pr0nm": "Nice T-Shirt (M)",
-				"pr0qt": "5",
-				"pr0cc": "SUMMER"
+				"pr1id": "shirtM",
+				"pr1nm": "Nice T-Shirt (M)",
+				"pr1qt": "5",
+				"pr1cc": "SUMMER"
 
 			});
 
