@@ -67,6 +67,10 @@ If `onValidationError` is passed in (default: `void`), it will be called with de
 
 See the table below for required/optional/allowed properties of `EcommerceAction` and `Product`.
 
+Note that although documentation says all hit types are allowed, the product information will be discarded if sent with
+`transaction` hit type (and probably some others). We have only tried testing full information with `pageview` and 
+`event` hit types.
+
 ### Params
 
 This roughly mirrors [the ecommerce.js API](https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-ecommerce#ecommerce-data).
