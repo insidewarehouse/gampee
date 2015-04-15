@@ -107,7 +107,7 @@ This roughly mirrors [the ecommerce.js API](https://developers.google.com/analyt
 	</th>
 	<td>opt</td>
 	<td>opt</td>
-	<td></td>
+	<td>opt</td>
 	<td></td>
 	<td></td>
 </tr>

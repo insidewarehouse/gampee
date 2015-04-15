@@ -16,6 +16,10 @@ function testValidation(input, expectedError) {
 	};
 }
 
+function throwErrors(e) {
+	throw new Error(e);
+}
+
 describe("gampee", function () {
 
 	it("should return empty object when called without params", function () {
@@ -537,14 +541,16 @@ describe("gampee", function () {
 
 			var ecommerceParams = gampee({
 				"type": "add",
+				"list": "search",
 				"products": [
 					{"id": "shirtM", "name": "Nice T-Shirt (M)", "quantity": 3, "coupon": "SUMMER"}
 				]
-			});
+			}, throwErrors);
 
 			expect(ecommerceParams).to.eql({
 
 				"pa": "add",
+				"pal": "search",
 
 				"pr1id": "shirtM",
 				"pr1nm": "Nice T-Shirt (M)",
@@ -580,14 +586,16 @@ describe("gampee", function () {
 
 			var ecommerceParams = gampee({
 				"type": "remove",
+				"list": "cart",
 				"products": [
 					{"id": "shirtM", "name": "Nice T-Shirt (M)", "quantity": 3, "coupon": "SUMMER"}
 				]
-			});
+			}, throwErrors);
 
 			expect(ecommerceParams).to.eql({
 
 				"pa": "remove",
+				"pal": "cart",
 
 				"pr1id": "shirtM",
 				"pr1nm": "Nice T-Shirt (M)",
