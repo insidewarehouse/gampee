@@ -36,6 +36,15 @@ module.exports = function (grunt) {
 				files: ["**/*.js", "test/**/*.js"],
 				tasks: ["jshint:watch", "test"]
 			}
+		},
+		"bump": {
+			"options": {
+				commitMessage: 'release %VERSION%',
+				commitFiles: [ "-a" ],
+				tagName: '%VERSION%',
+				tagMessage: 'version %VERSION%',
+				pushTo: 'origin'
+			}
 		}
 	});
 
