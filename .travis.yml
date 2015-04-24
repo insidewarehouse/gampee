@@ -5,3 +5,12 @@ matrix:
     - node_js: "0.10"
     - node_js: "0.12"
     - node_js: "io.js"
+deploy:
+  - provider: npm
+    skip_cleanup: true
+    email: "hello@dominykas.com"
+    api_key:
+      secure: "GBbnbRCJ0eELBGoVa6nayq7JAdSkf+csJhDZOK4wseAUkN/cGv/zmtlVME9F8w+ACigvwYOJkW1HIqOziH1Yc2F94WsjnXVdcP43zdADRABLBhIvKbtApaqbR6QdxdQGm0+KCnxvAsWmh3McGx9sfYUdi4P1RZLEXDc/LYU9w1U="
+    on:
+      tags: true
+      node_js: "0.10"

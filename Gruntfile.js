@@ -39,15 +39,13 @@ module.exports = function (grunt) {
 		}
 	});
 
-	grunt.renameTask("release", "_release");
-
 	grunt.registerTask("default", ["jshint:dist", "test"]);
 	grunt.registerTask("test", ["mochaTest"]);
 
 	grunt.registerTask("release", function () {
 		var bump = grunt.option("bump");
 		if (bump != "patch" && bump != "minor" && bump != "major") grunt.fail.fatal("Please pass --bump");
-		grunt.task.run(["checkbranch:master", "checkpending", "_release:" + bump]);
+		grunt.task.run(["checkbranch:master", "checkpending", "default", "bump:" + bump]);
 	});
 
 };
