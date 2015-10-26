@@ -24,6 +24,10 @@
     "url": "https://github.com/insidewarehouse/gampee/issues"
   },
   "homepage": "https://github.com/insidewarehouse/gampee",
+  "engines": {
+    "node": "0.12.x || 4.x",
+    "iojs": "*"
+  },
   "devDependencies": {
     "blanket": "1.x",
     "chai": "3.x",
