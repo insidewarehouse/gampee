@@ -2,15 +2,15 @@ sudo: false
 language: node_js
 matrix:
   include:
-    - node_js: "0.10"
     - node_js: "0.12"
+    - node_js: "4"
     - node_js: "io.js"
 deploy:
   - provider: npm
     skip_cleanup: true
     email: "hello@dominykas.com"
     api_key:
-      secure: "GBbnbRCJ0eELBGoVa6nayq7JAdSkf+csJhDZOK4wseAUkN/cGv/zmtlVME9F8w+ACigvwYOJkW1HIqOziH1Yc2F94WsjnXVdcP43zdADRABLBhIvKbtApaqbR6QdxdQGm0+KCnxvAsWmh3McGx9sfYUdi4P1RZLEXDc/LYU9w1U="
+      secure: "NyPAQlltvCIHFJ7EKSGe5ZB0BCaqQUTIx+PmeSmYc8k6DfmI8ivSJxbKpbRG1GnSme8pGTLxWnox4oo948bheGzve8m/C53vkt0gf+Au327knP746KX5R7OgCZJc5X5AhOrlT2CL9iGb2nc0GWnsi5Nj4hKjgmVanBYeY2ZKan8="
     on:
       tags: true
-      node_js: "0.10"
+      node_js: "4"
